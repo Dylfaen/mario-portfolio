@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Mario Le Sergent — portfolio
 
-## Getting Started
+Site vitrine de Mario Le Sergent, chef opérateur.
+Next.js 16 (App Router) + TypeScript + CSS Modules. Aucune base de données, aucun CMS :
+tout le contenu est dans des fichiers TypeScript.
 
-First, run the development server:
+## Démarrer
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev       # http://localhost:3000
+npm run build     # vérifie que tout compile avant de déployer
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Modifier le contenu
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Quoi | Où |
+| --- | --- |
+| Nom, e-mail, téléphone, réseaux, bio, CV | [`src/content/site.ts`](src/content/site.ts) |
+| Filmographie (projets, années, réalisateurs…) | [`src/content/projects.ts`](src/content/projects.ts) |
+| Menu de navigation | `nav` dans [`src/content/site.ts`](src/content/site.ts) |
+| Couleurs, typo, espacements | `:root` dans [`src/app/globals.css`](src/app/globals.css) |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Ajouter un projet
 
-## Learn More
+1. Copier une entrée du tableau `projects` dans `src/content/projects.ts`.
+2. Donner un `slug` unique (il devient l'URL : `/travaux/mon-slug`).
+3. Déposer les images dans `public/images/` et les référencer par `"/images/nom.jpg"`.
+4. `featured: true` fait apparaître le projet sur la page d'accueil.
 
-To learn more about Next.js, take a look at the following resources:
+La fiche projet, la page « Travaux » et le sitemap se mettent à jour tout seuls.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Images
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Format conseillé : JPEG/WebP, 16/9, ~1600 px de large, compressé.
+- `next/image` s'occupe du redimensionnement et du lazy loading.
+- `public/images/placeholder.svg` sert de bouchon en attendant les vraies images.
 
-## Deploy on Vercel
+## Structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+src/
+├─ app/
+│  ├─ layout.tsx              en-tête, pied de page, métadonnées, police
+│  ├─ page.tsx                accueil (sélection de projets)
+│  ├─ travaux/page.tsx        filmographie complète
+│  ├─ travaux/[slug]/page.tsx fiche projet (générée statiquement)
+│  ├─ a-propos/page.tsx
+│  ├─ contact/page.tsx
+│  ├─ globals.css             tokens de design + base mobile first
+│  ├─ sitemap.ts / robots.ts  SEO
+│  └─ not-found.tsx
+├─ components/                SiteHeader, SiteFooter, ProjectCard (+ .module.css)
+└─ content/                   site.ts, projects.ts  ← le contenu éditable
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## CSS
+
+Mobile first : le style de base cible le téléphone, les `@media (min-width: …)`
+n'ajoutent que ce qui change au-dessus. Points de rupture utilisés : `40em` (~640 px)
+et `64em` (~1024 px). Les variables de couleur/espacement sont dans `:root`.
+
+## Déploiement
+
+Prévu pour Vercel : importer le dépôt, aucune variable d'environnement nécessaire.
+Penser à mettre le vrai domaine dans `site.url` (`src/content/site.ts`) pour les
+métadonnées et le sitemap.

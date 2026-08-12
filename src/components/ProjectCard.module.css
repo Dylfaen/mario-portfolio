@@ -1,0 +1,32 @@
+.link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  text-decoration: none;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--color-surface);
+  border-radius: var(--radius);
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+
+.link:hover .image {
+  transform: scale(1.03);
+}
+
+.title {
+  font-size: var(--step-1);
+}
+
+.meta {
+  font-size: var(--step--1);
+  color: var(--color-muted);
+}

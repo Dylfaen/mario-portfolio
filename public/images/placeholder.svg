@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" role="img" aria-label="Image à venir">
+  <rect width="1600" height="900" fill="#1a1a1d"/>
+  <g fill="none" stroke="#3a3a3f" stroke-width="4">
+    <rect x="600" y="360" width="320" height="180" rx="8"/>
+    <path d="M920 410l90-45v210l-90-45z"/>
+  </g>
+  <text x="800" y="620" fill="#6a6a70" font-family="system-ui, sans-serif" font-size="34" text-anchor="middle">Image à venir</text>
+</svg>
