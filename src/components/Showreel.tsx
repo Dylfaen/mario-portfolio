@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowDown, ArrowLeft } from "lucide-react";
-import type { ShowreelProject } from "@/content/projects";
+import { ArrowDown, X } from "lucide-react";
+import { projectFilterPath, type ShowreelProject } from "@/content/projects";
 import VideoEmbed from "./VideoEmbed";
 import SiteHeader from "./SiteHeader";
 import ShowreelFilters from "./ShowreelFilters";
+import { GALLERY_VALUE, VIEW_PARAM } from "./ProjectsView";
 import styles from "./Showreel.module.css";
 
 /** Matches the crossfade duration in the CSS: ignore input while it plays. */
@@ -126,6 +128,7 @@ export default function Showreel({
   if (projects.length === 0) return null;
 
   const current = projects[index];
+  const currentFilterPath = projectFilterPath(current);
 
   return (
     <section
@@ -163,11 +166,13 @@ export default function Showreel({
             className={styles.back}
             // Falls back to the gallery when the film was opened directly.
             onClick={() =>
-              window.history.length > 1 ? router.back() : router.push("/galerie")
+              window.history.length > 1
+                ? router.back()
+                : router.push(`/?${VIEW_PARAM}=${GALLERY_VALUE}`)
             }
-            aria-label="Retour"
+            aria-label="Fermer"
           >
-            <ArrowLeft size={20} aria-hidden="true" />
+            <X size={20} aria-hidden="true" />
           </button>
         ) : (
           <ShowreelFilters category={category} subcategory={subcategory} />
@@ -221,6 +226,13 @@ export default function Showreel({
               .filter(Boolean)
               .join(" · ")}
           </span>
+
+          {/* Third line: the film's subcategory, and a way into that showreel. */}
+          {currentFilterPath && (
+            <Link href={currentFilterPath} className={styles.captionTag}>
+              {current.subcategory}
+            </Link>
+          )}
         </p>
 
         {/* Nothing to advance to when the filter leaves a single video. The

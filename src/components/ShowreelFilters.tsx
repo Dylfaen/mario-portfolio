@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, X } from "lucide-react";
 import { homeShowreel, showreelTaxonomy, slugify } from "@/content/projects";
 import { useViewMode, withView } from "./ProjectsView";
 import styles from "./ShowreelFilters.module.css";
@@ -131,21 +131,17 @@ export default function ShowreelFilters({
         ))}
       </Dropdown>
 
-      {current && current.subcategories.length > 0 && (
-        <Dropdown name="Sous-catégorie" value={activeSubLabel ?? "Toutes"}>
-          <Option href={href(`/${current.slug}`)} active={!activeSubcategory}>
-            Toutes
-          </Option>
-          {current.subcategories.map((sub) => (
-            <Option
-              key={sub.slug}
-              href={href(`/${current.slug}/${sub.slug}`)}
-              active={sub.slug === activeSubcategory}
-            >
-              {sub.label}
-            </Option>
-          ))}
-        </Dropdown>
+      {/* No subcategory picker: subcategories are reached from the tag under a
+          film's title. Once one is on, it shows here as a pill you can drop. */}
+      {current && activeSubLabel && (
+        <Link
+          href={href(`/${current.slug}`)}
+          className={styles.activeTag}
+          aria-label={`Retirer le filtre ${activeSubLabel}`}
+        >
+          {activeSubLabel}
+          <X className={styles.tagIcon} size="1em" aria-hidden="true" />
+        </Link>
       )}
     </nav>
   );

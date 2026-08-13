@@ -199,6 +199,16 @@ export function selectShowreel({
   );
 }
 
+/**
+ * Path of the showreel a project belongs to, for the tag under its title.
+ * Null when it is not filed under both a category and a subcategory.
+ */
+export function projectFilterPath(project: Project): string | null {
+  const category = slugify(project.category ?? "");
+  const subcategory = slugify(project.subcategory ?? "");
+  return category && subcategory ? `/${category}/${subcategory}` : null;
+}
+
 /** Every project with a video, featured or not, for /film/[slug]. */
 export const playableProjects = projects.filter(
   (project): project is ShowreelProject => Boolean(project.video),

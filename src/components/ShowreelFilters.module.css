@@ -13,14 +13,16 @@
 
 /* Same glass material as the header and the round button. */
 .trigger,
-.option {
+.option,
+.activeTag {
   font-size: var(--step--1);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
 }
 
-.trigger {
+.trigger,
+.activeTag {
   display: flex;
   align-items: center;
   gap: 0.4em;
@@ -32,7 +34,23 @@
   color: #fff;
   cursor: pointer;
   list-style: none; /* hides the default disclosure triangle */
+  text-decoration: none;
   transition: background var(--transition);
+}
+
+/* Active subcategory: same pill, with a cross to drop the filter. */
+.activeTag:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+
+.tagIcon {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity var(--transition);
+}
+
+.activeTag:hover .tagIcon {
+  opacity: 1;
 }
 
 .trigger::-webkit-details-marker {
