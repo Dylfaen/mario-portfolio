@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { projectFilterPath, type ShowreelProject } from "@/content/projects";
@@ -20,9 +21,17 @@ export default function Gallery({
 }) {
   // Tags keep you in the gallery rather than dropping you into fullscreen.
   const { gallery } = useViewMode();
+  // Average colour of the hovered cover, lighting the page behind the grid.
+  const [glow, setGlow] = useState<string | null>(null);
 
   return (
     <div className={styles.gallery}>
+      <div
+        className={`${styles.glow} ${glow ? styles.glowOn : ""}`}
+        style={glow ? { backgroundColor: glow } : undefined}
+        aria-hidden="true"
+      />
+
       {/* Out of the flow, like in the fullscreen view: expanding it on hover
           then overlays the page instead of pushing the filters off screen. */}
       <div className={styles.headerSlot}>
@@ -33,12 +42,21 @@ export default function Gallery({
         <ShowreelFilters category={category} subcategory={subcategory} />
       </div>
 
-      <ul className={styles.grid}>
+      <ul
+        className={styles.grid}
+        onMouseLeave={() => setGlow(null)}
+        onBlur={() => setGlow(null)}
+      >
         {projects.map((project, index) => {
           const filterPath = projectFilterPath(project);
 
           return (
-            <li key={project.slug} className={styles.card}>
+            <li
+              key={project.slug}
+              className={styles.card}
+              onMouseEnter={() => setGlow(project.glow ?? null)}
+              onFocus={() => setGlow(project.glow ?? null)}
+            >
               <Link href={`/film/${project.slug}`} className={styles.cardLink}>
                 <div className={styles.media}>
                   <Image

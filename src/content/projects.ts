@@ -50,6 +50,13 @@ export type Project = {
   /** Alt text for the cover image (accessibility) */
   coverAlt?: string;
   /**
+   * Average colour of the cover, lighting the gallery background on hover.
+   * Regenerate after changing an image:
+   *   ffmpeg -v error -i public/images/<slug>.jpg -vf scale=1:1 \
+   *     -sws_flags area -f rawvideo -pix_fmt rgb24 - | xxd -p
+   */
+  glow?: string;
+  /**
    * When set, it replaces the image: fullscreen on the home page,
    * player on the project page.
    */
@@ -67,7 +74,8 @@ export const projects: Project[] = [
     production: "Vanta",
     category: "pub",
     subcategory: "mode",
-    cover: "/images/placeholder.svg",
+    cover: "/images/campagne-casablanca-ss25.jpg",
+    glow: "#a59f95",
     video: { provider: "adobe", id: "LZ-iAYBzxL3" },
     featured: true,
   },
@@ -78,7 +86,8 @@ export const projects: Project[] = [
     production: "Royal Cheese",
     category: "pub",
     subcategory: "auto",
-    cover: "/images/placeholder.svg",
+    cover: "/images/campagne-undiz-ss25.jpg",
+    glow: "#897b6c",
     video: { provider: "adobe", id: "Tt9r76A5tsA" },
     featured: true,
   },
@@ -90,7 +99,8 @@ export const projects: Project[] = [
     production: "Vanta",
     category: "pub",
     subcategory: "mode",
-    cover: "/images/placeholder.svg",
+    cover: "/images/campagne-casablanca-ss25-2.jpg",
+    glow: "#184f44",
     video: { provider: "adobe", id: "2x6RhMo-B_H" },
     featured: true,
   },
@@ -99,7 +109,8 @@ export const projects: Project[] = [
     title: "REDSHIFT — Mosais Fashion Film",
     director: "Ben Fourmi",
     production: "Helmut Production",
-    cover: "/images/placeholder.svg",
+    cover: "/images/redshift-mosais-fashion-film.jpg",
+    glow: "#5a200f",
     video: { provider: "adobe", id: "28AEVcQV5Et" },
     category: "pub",
     subcategory: "mode",
@@ -110,7 +121,8 @@ export const projects: Project[] = [
     title: "Conversations",
     director: "Marion Renerre",
     production: "Hurrah.studio",
-    cover: "/images/placeholder.svg",
+    cover: "/images/conversations.jpg",
+    glow: "#69413a",
     category: "documentaire",
     subcategory: "musique",
     video: { provider: "adobe", id: "Dj9Lq8cnNiU" },
@@ -123,7 +135,8 @@ export const projects: Project[] = [
     production: "Cokau Lab",
     category: "fiction",
     subcategory: "scifi",
-    cover: "/images/placeholder.svg",
+    cover: "/images/le-rayon-vert.jpg",
+    glow: "#b8bebe",
     video: { provider: "adobe", id: "CGSS8N4fCz3" },
     featured: true,
   },
@@ -132,7 +145,8 @@ export const projects: Project[] = [
     title: "Edito gheir x CARTIER",
     director: "Angie Kremer",
     production: "Angie Kremer Studio",
-    cover: "/images/placeholder.svg",
+    cover: "/images/edito-gheir-cartier.jpg",
+    glow: "#57210d",
     video: { provider: "adobe", id: "CIX2WVyYsYp" },
     category: "pub",
     subcategory: "mode",
@@ -143,7 +157,8 @@ export const projects: Project[] = [
     title: "G-SHOCK x Cédric Doumbé",
     director: "Yannis Labdaoui",
     production: "Téléphone Maison Films",
-    cover: "/images/placeholder.svg",
+    cover: "/images/g-shock-cedric-doumbe.jpg",
+    glow: "#161b1f",
     video: { provider: "vimeo", id: "866567198" },
     category: "pub",
     subcategory: "mode",
@@ -154,7 +169,8 @@ export const projects: Project[] = [
     title: "G-SHOCK x Prince Waly — playground ep07",
     director: "Yannis Labdaoui",
     production: "AES Films",
-    cover: "/images/placeholder.svg",
+    cover: "/images/g-shock-prince-waly-playground-ep07.jpg",
+    glow: "#4c120a",
     video: { provider: "vimeo", id: "814314963", hash: "a5e4cb3256" },
     category: "pub",
     subcategory: "mode",
