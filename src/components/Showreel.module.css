@@ -16,6 +16,54 @@
   inset: 0;
 }
 
+/* Carousel indicator, centred on the left edge. */
+.dots {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: max(var(--space-xs), env(safe-area-inset-left));
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* The button is a comfortable touch target; the dot itself is the ::before. */
+.dot {
+  display: grid;
+  place-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.dot::before {
+  content: "";
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: rgb(255 255 255 / 0.5);
+  /* Keeps the dots readable over a bright frame */
+  box-shadow: 0 0 6px rgb(0 0 0 / 0.5);
+  transition:
+    transform 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    background 350ms ease;
+}
+
+.dot:hover::before {
+  background: rgb(255 255 255 / 0.8);
+}
+
+.dotActive::before {
+  background: #fff;
+  transform: scale(1.7);
+}
+
 /* Positioning only — the header and the filters style themselves. */
 .header,
 .filters {

@@ -19,5 +19,5 @@ export const site = {
     "Portfolio de Mario Le Sergent, chef opérateur basé à Paris. Fiction, documentaire, clip et publicité.",
   location: "Paris, France",
   // Put the real domain here (used by the sitemap and the metadata)
-  url: "https://mariolesergent.fr",
+  url: "https://mariolesergent.com",
 } as const;

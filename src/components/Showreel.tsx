@@ -14,7 +14,14 @@ const TRANSITION_MS = 900;
 /** Minimum swipe distance, in pixels, before it counts as a change. */
 const SWIPE_THRESHOLD = 50;
 /** How long the full header stays up before shrinking to the name alone. */
-const HEADER_COLLAPSE_MS = 10_000;
+const HEADER_COLLAPSE_MS = 5_000;
+
+/**
+ * When this bundle was loaded, i.e. the start of the visit. The header greeting
+ * is timed from here rather than from each mount, so swapping view or changing
+ * filter neither restarts it nor cuts it short. Only a full page load resets it.
+ */
+const visitStart = Date.now();
 
 export default function Showreel({
   projects,
@@ -33,7 +40,11 @@ export default function Showreel({
   single?: boolean;
 }) {
   const [index, setIndex] = useState(0);
-  const [headerCollapsed, setHeaderCollapsed] = useState(false);
+  const [headerCollapsed, setHeaderCollapsed] = useState(
+    () =>
+      typeof window !== "undefined" &&
+      Date.now() - visitStart >= HEADER_COLLAPSE_MS,
+  );
   const stackRef = useRef<HTMLDivElement>(null);
   const lockedRef = useRef(false);
   const touchStartRef = useRef<number | null>(null);
@@ -53,15 +64,32 @@ export default function Showreel({
     [projects.length],
   );
 
-  // The full header is an intro: it shrinks on its own after a few seconds.
+  // Jump straight to one video, from the dots on the left.
+  const goTo = useCallback((next: number) => {
+    if (lockedRef.current) return;
+    lockedRef.current = true;
+    setIndex(next);
+    window.setTimeout(() => {
+      lockedRef.current = false;
+    }, TRANSITION_MS);
+  }, []);
+
+  // The full header is an intro: it shrinks once the visit is old enough,
+  // whichever showreel happens to be mounted at that point.
   // Hovering it brings the details back, through CSS alone.
   useEffect(() => {
-    const timer = window.setTimeout(
-      () => setHeaderCollapsed(true),
-      HEADER_COLLAPSE_MS,
+    if (headerCollapsed) return;
+
+    // Clamped rather than branching: a 0ms timeout still defers the update to
+    // the next tick, which setting state straight from an effect would not.
+    const remaining = Math.max(
+      0,
+      HEADER_COLLAPSE_MS - (Date.now() - visitStart),
     );
+
+    const timer = window.setTimeout(() => setHeaderCollapsed(true), remaining);
     return () => window.clearTimeout(timer);
-  }, []);
+  }, [headerCollapsed]);
 
   // No page scroll while the showreel is mounted: scrolling changes video
   // instead, and the scrollbar disappears.
@@ -122,9 +150,10 @@ export default function Showreel({
         }
       }}
     >
-      {/* Full state at first, name only once collapsed or past the first video. */}
+      {/* Full state only as an intro, on arrival: once collapsed it stays
+          collapsed, and hovering is the way to read it again. */}
       <div className={styles.header}>
-        <SiteHeader compact={headerCollapsed || index > 0} />
+        <SiteHeader compact={headerCollapsed} />
       </div>
 
       <div className={styles.filters}>
@@ -144,6 +173,23 @@ export default function Showreel({
           <ShowreelFilters category={category} subcategory={subcategory} />
         )}
       </div>
+
+      {/* Carousel indicator: where you are in the reel, and a way to jump. */}
+      {!single && projects.length > 1 && (
+        <ol className={styles.dots} aria-label="Vidéos de la sélection">
+          {projects.map((project, i) => (
+            <li key={project.slug}>
+              <button
+                type="button"
+                className={`${styles.dot} ${i === index ? styles.dotActive : ""}`}
+                onClick={() => goTo(i)}
+                aria-label={project.title}
+                aria-current={i === index ? "true" : undefined}
+              />
+            </li>
+          ))}
+        </ol>
+      )}
 
       <div ref={stackRef} className={styles.stack}>
         {projects.map((project, i) => (
@@ -177,9 +223,10 @@ export default function Showreel({
           </span>
         </p>
 
-        {/* The view switch lives in ProjectsView, on the same line, so that it
+        {/* Nothing to advance to when the filter leaves a single video. The
+            view switch lives in ProjectsView, on the same line, so that it
             survives the swap between the two presentations. */}
-        {!single && (
+        {!single && projects.length > 1 && (
           <button
             type="button"
             className={styles.next}

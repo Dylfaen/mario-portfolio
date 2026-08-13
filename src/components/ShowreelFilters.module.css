@@ -4,6 +4,7 @@
   flex-direction: column;
   align-items: flex-end;
   gap: var(--space-2xs);
+  padding-top: 0.1em;
 }
 
 .dropdown {
@@ -63,6 +64,7 @@
   list-style: none;
   border-radius: 0.9rem;
   border: 1px solid rgb(255 255 255 / 0.3);
+  overflow: hidden;
   /* Same glass as the trigger, the header and the round button. */
   background: rgb(255 255 255 / 0.12);
   backdrop-filter: blur(8px);
@@ -83,7 +85,6 @@
 .option {
   display: block;
   padding: 0.45em 0.8em;
-  border-radius: 0.6rem;
   color: rgb(255 255 255 / 0.8);
   text-decoration: none;
   transition:

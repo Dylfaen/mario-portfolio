@@ -101,8 +101,8 @@ export const projects: Project[] = [
     production: "Helmut Production",
     cover: "/images/placeholder.svg",
     video: { provider: "adobe", id: "28AEVcQV5Et" },
-    category: "fiction",
-    subcategory: "musique",
+    category: "pub",
+    subcategory: "mode",
     featured: true,
   },
   {
@@ -114,6 +114,7 @@ export const projects: Project[] = [
     category: "documentaire",
     subcategory: "musique",
     video: { provider: "adobe", id: "Dj9Lq8cnNiU" },
+    featured: true,
   },
   {
     slug: "le-rayon-vert",
@@ -124,6 +125,7 @@ export const projects: Project[] = [
     subcategory: "scifi",
     cover: "/images/placeholder.svg",
     video: { provider: "adobe", id: "CGSS8N4fCz3" },
+    featured: true,
   },
   {
     slug: "edito-gheir-cartier",
@@ -132,6 +134,9 @@ export const projects: Project[] = [
     production: "Angie Kremer Studio",
     cover: "/images/placeholder.svg",
     video: { provider: "adobe", id: "CIX2WVyYsYp" },
+    category: "pub",
+    subcategory: "mode",
+    featured: true,
   },
   {
     slug: "g-shock-cedric-doumbe",
@@ -140,6 +145,9 @@ export const projects: Project[] = [
     production: "Téléphone Maison Films",
     cover: "/images/placeholder.svg",
     video: { provider: "vimeo", id: "866567198" },
+    category: "pub",
+    subcategory: "mode",
+    featured: true,
   },
   {
     slug: "g-shock-prince-waly-playground-ep07",
@@ -148,6 +156,9 @@ export const projects: Project[] = [
     production: "AES Films",
     cover: "/images/placeholder.svg",
     video: { provider: "vimeo", id: "814314963", hash: "a5e4cb3256" },
+    category: "pub",
+    subcategory: "mode",
+    featured: true,
   },
 ];
 

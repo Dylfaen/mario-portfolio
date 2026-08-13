@@ -64,6 +64,10 @@ html {
 
 body {
   min-height: 100dvh;
+  /* Floating chrome must never open a sideways scrollbar. `clip` rather than
+     `hidden`, which would turn the body into a scroll container and break the
+     sticky filter bar. */
+  overflow-x: clip;
   display: flex;
   flex-direction: column;
   background: var(--color-bg);

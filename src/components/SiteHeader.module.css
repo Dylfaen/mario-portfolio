@@ -1,8 +1,17 @@
+.wrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+
+  /* Height of the collapsed pill, spelled out: padding + borders + one line of
+     the name. The bubble uses it so its size never follows the expansion. */
+  --bubble-size: calc(var(--space-xs) * 2 + 2px + var(--step--1) * 1.25);
+}
+
 /* Same glass material as the showreel's round button. */
 .header {
   display: inline-flex;
   flex-direction: column;
-  gap: var(--space-2xs);
   padding: var(--space-s) var(--space-m);
   border-radius: 1.25rem;
   border: 1px solid rgb(255 255 255 / 0.35);
@@ -22,6 +31,7 @@
 
 .name {
   font-size: var(--step-0);
+  line-height: 1.25;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   white-space: nowrap;
@@ -83,30 +93,60 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2xs);
+  /* Was the header's flex gap: kept inside so the collapsed pill is exactly
+     padding + border + one line of the name. */
+  padding-top: var(--space-2xs);
   min-height: 0;
   overflow: hidden;
   font-size: var(--step--1);
   color: rgb(255 255 255 / 0.8);
 }
 
-.location,
-.instagram {
+.location {
   display: inline-flex;
   align-items: center;
   gap: 0.35em;
   white-space: nowrap;
 }
 
-.instagram {
+/* Instagram bubble: the compact header's stand-in for the full identity, so
+   it is hidden whenever the details are on screen — including on hover. */
+.bubble {
+  flex-shrink: 0;
+  /* Stays on the name's line when the header expands below it */
   align-self: flex-start;
-  color: inherit;
-  text-decoration: none;
-  transition: color var(--transition);
+  display: grid;
+  place-items: center;
+  width: var(--bubble-size);
+  height: var(--bubble-size);
+  margin-top: 0.1em;
+  border-radius: 50%;
+  border: 1px solid rgb(255 255 255 / 0.43);
+  background: rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    opacity 350ms ease,
+    background var(--transition);
 }
 
-.instagram:hover {
-  color: #fff;
-  text-decoration: underline;
+.bubbleVisible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.bubble:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+
+/* Hovering or focusing the collapsed header expands it, so the bubble goes.
+   Scoped to the header, otherwise hovering the bubble would hide the bubble. */
+.wrapper:has(.header:hover) .bubble,
+.wrapper:has(.header:focus-within) .bubble {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .pin {

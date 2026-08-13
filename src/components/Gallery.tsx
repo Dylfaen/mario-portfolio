@@ -17,11 +17,14 @@ export default function Gallery({
 }) {
   return (
     <div className={styles.gallery}>
-      <div className={styles.bar}>
+      {/* Out of the flow, like in the fullscreen view: expanding it on hover
+          then overlays the page instead of pushing the filters off screen. */}
+      <div className={styles.headerSlot}>
         <SiteHeader compact />
-        <div className={styles.controls}>
-          <ShowreelFilters category={category} subcategory={subcategory} />
-        </div>
+      </div>
+
+      <div className={styles.bar}>
+        <ShowreelFilters category={category} subcategory={subcategory} />
       </div>
 
       <ul className={styles.grid}>
