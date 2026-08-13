@@ -1,0 +1,12 @@
+/* Fixed, so it holds still whichever view is underneath and however far the
+   gallery scrolls. The slot is as tall as the next arrow and centres its
+   contents, which puts the two on exactly the same line in fullscreen. */
+.switchSlot {
+  position: fixed;
+  z-index: 6;
+  right: max(var(--gutter), env(safe-area-inset-right));
+  bottom: max(var(--space-l), env(safe-area-inset-bottom));
+  display: grid;
+  place-items: center;
+  height: var(--control-size);
+}

@@ -1,0 +1,169 @@
+.showreel {
+  position: relative;
+  width: 100%;
+  /* dvh follows the mobile browser chrome as it collapses on scroll */
+  height: 100dvh;
+  overflow: hidden;
+  background: #000;
+  /* Swipes drive the video change, so the browser must not treat them as
+     scrolling: no rubber-banding, no pull-to-refresh. */
+  touch-action: none;
+  overscroll-behavior: none;
+}
+
+.stack {
+  position: absolute;
+  inset: 0;
+}
+
+/* Positioning only — the header and the filters style themselves. */
+.header,
+.filters {
+  position: absolute;
+  z-index: 2;
+  top: max(var(--space-m), env(safe-area-inset-top));
+}
+
+.header {
+  left: max(var(--gutter), env(safe-area-inset-left));
+}
+
+.filters {
+  right: max(var(--gutter), env(safe-area-inset-right));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2xs);
+}
+
+/* Single-film view: same corner as the filters it replaces. */
+.back {
+  display: grid;
+  place-items: center;
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 50%;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  background: rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+.back:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+
+.back:active {
+  transform: scale(0.94);
+}
+
+.layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.05);
+  transition:
+    opacity 800ms ease,
+    transform 1400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.active {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Cover, orientation-agnostic: blow the 16/9 player up until it overflows
+   the viewport on both axes, then centre it. Portrait crops the sides,
+   landscape crops top and bottom — the screen is always full. */
+.cover {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max(100dvw, calc(100dvh * 16 / 9));
+  height: max(100dvh, calc(100dvw * 9 / 16));
+}
+
+.hud {
+  position: absolute;
+  inset: auto 0 0 0;
+  /* Column rather than a row: the button stays centred on the viewport
+     whatever the caption's width, and the two can never overlap. */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+  padding: var(--space-xl) var(--gutter) var(--space-l);
+  /* Clears the iPhone home indicator in landscape and portrait */
+  padding-bottom: max(var(--space-l), env(safe-area-inset-bottom));
+  background: linear-gradient(to top, rgb(0 0 0 / 0.65), transparent);
+}
+
+.caption {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  color: #fff;
+  text-shadow: 0 1px 12px rgb(0 0 0 / 0.5);
+  animation: rise 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.captionTitle {
+  font-size: var(--step-1);
+  line-height: 1.2;
+}
+
+.captionMeta {
+  font-size: var(--step--1);
+  color: rgb(255 255 255 / 0.75);
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.next {
+  align-self: center;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  /* Shared with the view switch row so the two line up */
+  width: var(--control-size);
+  height: var(--control-size);
+  border-radius: 50%;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  background: rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+.next svg {
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.next:hover {
+  background: rgb(255 255 255 / 0.24);
+}
+
+.next:hover svg {
+  transform: translateY(3px);
+}
+
+.next:active {
+  transform: scale(0.94);
+}
+

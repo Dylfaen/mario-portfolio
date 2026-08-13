@@ -1,8 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { site } from "@/content/site";
-import SiteHeader from "@/components/SiteHeader";
-import SiteFooter from "@/components/SiteFooter";
 import "./globals.css";
 
 const sans = Inter({
@@ -27,15 +25,21 @@ export const metadata: Metadata = {
   },
 };
 
+// Lets the fullscreen video reach under the notch / home indicator, and makes
+// the env(safe-area-inset-*) values used by the showreel meaningful on iOS.
+export const viewport: Viewport = {
+  viewportFit: "cover",
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="fr" className={sans.variable}>
       <body>
-        <SiteHeader />
-        <main id="contenu">{children}</main>
-        <SiteFooter />
+        {/* Header removed for now — re-add <SiteHeader /> here when needed.
+            The footer lives in the (site) group, so the home page has none. */}
+        {children}
       </body>
     </html>
   );

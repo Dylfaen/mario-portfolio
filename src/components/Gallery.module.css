@@ -1,0 +1,78 @@
+.gallery {
+  min-height: 100dvh;
+  padding: 0 var(--gutter) calc(var(--space-2xl) + var(--control-size));
+}
+
+/* Header on the left, filters and view switch on the right — same corners as
+   the fullscreen view, so switching between the two barely moves anything. */
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-m);
+  padding-block: max(var(--space-m), env(safe-area-inset-top)) var(--space-m);
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2xs);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-l);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  text-decoration: none;
+}
+
+.media {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+
+.image {
+  object-fit: cover;
+  transition: transform 400ms ease;
+}
+
+.card:hover .image {
+  transform: scale(1.03);
+}
+
+.title {
+  font-size: var(--step-1);
+}
+
+.meta {
+  font-size: var(--step--1);
+  color: var(--color-muted);
+}
+
+@media (min-width: 40em) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64em) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

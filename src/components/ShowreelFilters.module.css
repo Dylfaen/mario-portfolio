@@ -1,0 +1,107 @@
+.filters {
+  display: flex;
+  /* Stacked, right-aligned under each other in the top corner. */
+  flex-direction: column;
+  align-items: flex-end;
+  gap: var(--space-2xs);
+}
+
+.dropdown {
+  position: relative;
+}
+
+/* Same glass material as the header and the round button. */
+.trigger,
+.option {
+  font-size: var(--step--1);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  padding: 0.4em 0.7em 0.4em 0.85em;
+  border-radius: 999px;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  background: rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  cursor: pointer;
+  list-style: none; /* hides the default disclosure triangle */
+  transition: background var(--transition);
+}
+
+.trigger::-webkit-details-marker {
+  display: none;
+}
+
+.trigger:hover {
+  background: rgb(255 255 255 / 0.22);
+}
+
+.chevron {
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: transform var(--transition);
+}
+
+.dropdown[open] .chevron {
+  transform: rotate(180deg);
+}
+
+.panel {
+  position: absolute;
+  z-index: 3;
+  top: calc(100% + var(--space-2xs));
+  right: 0;
+  min-width: 100%;
+  margin: 0;
+  padding: var(--space-2xs);
+  list-style: none;
+  border-radius: 0.9rem;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  /* Same glass as the trigger, the header and the round button. */
+  background: rgb(255 255 255 / 0.12);
+  backdrop-filter: blur(8px);
+  animation: drop 200ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes drop {
+  from {
+    opacity: 0;
+    transform: translateY(-0.35rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.option {
+  display: block;
+  padding: 0.45em 0.8em;
+  border-radius: 0.6rem;
+  color: rgb(255 255 255 / 0.8);
+  text-decoration: none;
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+.option:hover {
+  background: rgb(255 255 255 / 0.22);
+  color: #fff;
+}
+
+.active {
+  background: rgb(255 255 255 / 0.92);
+  color: #000;
+}
+
+.active:hover {
+  background: #fff;
+  color: #000;
+}

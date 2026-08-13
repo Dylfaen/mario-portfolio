@@ -1,11 +1,11 @@
 /* --------------------------------------------------------------------------
    Base + design tokens.
-   Mobile first : tout est écrit pour le petit écran, les media queries
-   `min-width` ajoutent seulement ce qui change sur écran large.
+   Mobile first: everything is written for the small screen, and `min-width`
+   media queries only add what changes on wider viewports.
    -------------------------------------------------------------------------- */
 
 :root {
-  /* Couleurs (thème sombre par défaut, typique d'un portfolio image) */
+  /* Colors (dark theme by default, typical of a cinematography portfolio) */
   --color-bg: #0b0b0c;
   --color-surface: #141416;
   --color-text: #f2f2f0;
@@ -13,7 +13,7 @@
   --color-border: #2a2a2d;
   --color-accent: #e6e6e3;
 
-  /* Typo : échelle fluide, pas besoin de media query pour la taille */
+  /* Type: fluid scale, so font sizes need no media query */
   --font-sans: var(--font-sans-loaded), system-ui, sans-serif;
   --step--1: clamp(0.82rem, 0.79rem + 0.15vw, 0.9rem);
   --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.08rem);
@@ -21,7 +21,7 @@
   --step-2: clamp(1.6rem, 1.35rem + 1.2vw, 2.25rem);
   --step-3: clamp(2.1rem, 1.6rem + 2.4vw, 3.5rem);
 
-  /* Espacements */
+  /* Spacing */
   --space-2xs: 0.25rem;
   --space-xs: 0.5rem;
   --space-s: 0.75rem;
@@ -30,7 +30,11 @@
   --space-xl: 3.5rem;
   --space-2xl: 6rem;
 
-  /* Mise en page */
+  /* Round controls (next arrow, back, view switch row) share one size so they
+     line up across views */
+  --control-size: 3.25rem;
+
+  /* Layout */
   --content-width: 72rem;
   --gutter: var(--space-m);
   --radius: 2px;
@@ -40,6 +44,7 @@
 @media (min-width: 48em) {
   :root {
     --gutter: var(--space-l);
+    --control-size: 3.75rem;
   }
 }
 
@@ -125,7 +130,7 @@ ol[class] {
   }
 }
 
-/* --- utilitaires partagés ------------------------------------------------ */
+/* --- shared utilities ---------------------------------------------------- */
 
 .container {
   width: 100%;
@@ -136,15 +141,4 @@ ol[class] {
 
 .section {
   padding-block: var(--space-xl);
-}
-
-/* Masqué visuellement mais lu par les lecteurs d'écran */
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
 }
