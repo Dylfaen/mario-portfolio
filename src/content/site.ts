@@ -13,11 +13,10 @@ const instagram = {
 export const site = {
   name: "Mario Le Sergent",
   instagram,
-  role: "Chef opérateur",
+  role: "Director of Photography",
   // Used for <title> tags / SEO
   description:
-    "Portfolio de Mario Le Sergent, chef opérateur basé à Paris. Fiction, documentaire, clip et publicité.",
-  location: "Paris, France",
+    "Portfolio of Mario Le Sergent, director of photography based in Paris. Fiction, documentary, music video and commercials.",
   // Put the real domain here (used by the sitemap and the metadata)
   url: "https://mariolesergent.com",
 } as const;

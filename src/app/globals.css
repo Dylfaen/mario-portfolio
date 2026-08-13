@@ -33,6 +33,10 @@
   /* Round controls (next arrow, back, view switch row) share one size so they
      line up across views */
   --control-size: 3.25rem;
+  /* Height of the collapsed header, spelled out: padding + borders + one line
+     of the name. The Instagram bubble is sized from it, and the filters clear
+     it on narrow screens. */
+  --header-size: calc(var(--space-xs) * 2 + 2px + var(--step--1) * 1.25);
 
   /* Layout */
   --content-width: 72rem;

@@ -102,10 +102,10 @@ export default function ShowreelFilters({
   const activeSubcategory = slugify(subcategory ?? "");
   const current = taxonomy.find((entry) => entry.slug === activeCategory);
 
-  // "Tout" is `/` only when nothing narrows the home page down; otherwise the
+  // "All" is `/` only when nothing narrows the home page down; otherwise the
   // everything-showreel lives at its own route.
   const allPath =
-    !homeShowreel.category && !homeShowreel.subcategory ? "/" : "/tout";
+    !homeShowreel.category && !homeShowreel.subcategory ? "/" : "/all";
 
   // Changing the filter keeps you in the view you are already in.
   const href = (path: string) => withView(path, gallery);
@@ -115,10 +115,10 @@ export default function ShowreelFilters({
   )?.label;
 
   return (
-    <nav ref={rootRef} className={styles.filters} aria-label="Filtrer les projets">
-      <Dropdown name="Catégorie" value={current?.label ?? "Tout"}>
+    <nav ref={rootRef} className={styles.filters} aria-label="Filter films">
+      <Dropdown name="Category" value={current?.label ?? "All"}>
         <Option href={href(allPath)} active={!activeCategory}>
-          Tout
+          All
         </Option>
         {taxonomy.map((entry) => (
           <Option
@@ -137,7 +137,7 @@ export default function ShowreelFilters({
         <Link
           href={href(`/${current.slug}`)}
           className={styles.activeTag}
-          aria-label={`Retirer le filtre ${activeSubLabel}`}
+          aria-label={`Remove the ${activeSubLabel} filter`}
         >
           {activeSubLabel}
           <X className={styles.tagIcon} size="1em" aria-hidden="true" />

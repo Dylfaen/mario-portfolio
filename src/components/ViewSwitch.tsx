@@ -8,7 +8,7 @@ export default function ViewSwitch() {
   const { gallery, setGallery } = useViewMode();
 
   return (
-    <div className={styles.switch} role="group" aria-label="Mode d'affichage">
+    <div className={styles.switch} role="group" aria-label="View mode">
       {/* One highlight that slides between the two, rather than two that
           blink on and off. */}
       <span
@@ -20,7 +20,7 @@ export default function ViewSwitch() {
         className={`${styles.option} ${gallery ? "" : styles.active}`}
         onClick={() => setGallery(false)}
         aria-pressed={!gallery}
-        aria-label="Plein écran"
+        aria-label="Fullscreen"
       >
         <Maximize2 size="1.05em" aria-hidden="true" />
       </button>
@@ -29,7 +29,7 @@ export default function ViewSwitch() {
         className={`${styles.option} ${gallery ? styles.active : ""}`}
         onClick={() => setGallery(true)}
         aria-pressed={gallery}
-        aria-label="Galerie"
+        aria-label="Gallery"
       >
         <LayoutGrid size="1.05em" aria-hidden="true" />
       </button>

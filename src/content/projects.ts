@@ -13,7 +13,7 @@
 /**
  * Categories and subcategories are free text — write anything on a project,
  * there is no list to keep in sync. Everything is compared through `slugify`,
- * so " Ad ", "pub" and "AD" are one and the same category, reachable at /pub.
+ * so " Ads ", "ads" and "ADS" are one and the same category, reachable at /ads.
  */
 export function slugify(value: string): string {
   return value
@@ -41,9 +41,9 @@ export type Project = {
   year?: number;
   director: string;
   production?: string;
-  /** Showreel it belongs to, free text: "pub", "Fiction", "Clip"… → /pub */
+  /** Showreel it belongs to, free text: "ads", "Fiction", "Clip"… → /ads */
   category?: string;
-  /** Narrows it further: "mode" → /pub/mode */
+  /** Narrows it further: "fashion" → /ads/fashion */
   subcategory?: string;
   /** Cover image (16:9 recommended, ~1600px wide) */
   cover: string;
@@ -72,8 +72,8 @@ export const projects: Project[] = [
     title: "Campagne Casablanca SS25",
     director: "Andrée Dubois",
     production: "Vanta",
-    category: "pub",
-    subcategory: "mode",
+    category: "ads",
+    subcategory: "fashion",
     cover: "/images/campagne-casablanca-ss25.jpg",
     glow: "#a59f95",
     video: { provider: "adobe", id: "LZ-iAYBzxL3" },
@@ -84,8 +84,8 @@ export const projects: Project[] = [
     title: "Campagne UNDIZ SS25",
     director: "Andrée Dubois",
     production: "Royal Cheese",
-    category: "pub",
-    subcategory: "auto",
+    category: "ads",
+    subcategory: "cars",
     cover: "/images/campagne-undiz-ss25.jpg",
     glow: "#897b6c",
     video: { provider: "adobe", id: "Tt9r76A5tsA" },
@@ -97,8 +97,8 @@ export const projects: Project[] = [
     title: "Campagne Casablanca SS25",
     director: "Andrée Dubois",
     production: "Vanta",
-    category: "pub",
-    subcategory: "mode",
+    category: "ads",
+    subcategory: "fashion",
     cover: "/images/campagne-casablanca-ss25-2.jpg",
     glow: "#184f44",
     video: { provider: "adobe", id: "2x6RhMo-B_H" },
@@ -112,8 +112,8 @@ export const projects: Project[] = [
     cover: "/images/redshift-mosais-fashion-film.jpg",
     glow: "#5a200f",
     video: { provider: "adobe", id: "28AEVcQV5Et" },
-    category: "pub",
-    subcategory: "mode",
+    category: "ads",
+    subcategory: "fashion",
     featured: true,
   },
   {
@@ -123,8 +123,8 @@ export const projects: Project[] = [
     production: "Hurrah.studio",
     cover: "/images/conversations.jpg",
     glow: "#69413a",
-    category: "documentaire",
-    subcategory: "musique",
+    category: "documentary",
+    subcategory: "music",
     video: { provider: "adobe", id: "Dj9Lq8cnNiU" },
     featured: true,
   },
@@ -134,7 +134,7 @@ export const projects: Project[] = [
     director: "Marion Renerre",
     production: "Cokau Lab",
     category: "fiction",
-    subcategory: "scifi",
+    subcategory: "sci-fi",
     cover: "/images/le-rayon-vert.jpg",
     glow: "#b8bebe",
     video: { provider: "adobe", id: "CGSS8N4fCz3" },
@@ -148,8 +148,8 @@ export const projects: Project[] = [
     cover: "/images/edito-gheir-cartier.jpg",
     glow: "#57210d",
     video: { provider: "adobe", id: "CIX2WVyYsYp" },
-    category: "pub",
-    subcategory: "mode",
+    category: "ads",
+    subcategory: "fashion",
     featured: true,
   },
   {
@@ -160,8 +160,8 @@ export const projects: Project[] = [
     cover: "/images/g-shock-cedric-doumbe.jpg",
     glow: "#161b1f",
     video: { provider: "vimeo", id: "866567198" },
-    category: "pub",
-    subcategory: "mode",
+    category: "ads",
+    subcategory: "fashion",
     featured: true,
   },
   {
@@ -172,8 +172,8 @@ export const projects: Project[] = [
     cover: "/images/g-shock-prince-waly-playground-ep07.jpg",
     glow: "#4c120a",
     video: { provider: "vimeo", id: "814314963", hash: "a5e4cb3256" },
-    category: "pub",
-    subcategory: "mode",
+    category: "ads",
+    subcategory: "fashion",
     featured: true,
   },
 ];
@@ -181,11 +181,11 @@ export const projects: Project[] = [
 /**
  * What `/` plays. Case and stray spaces do not matter.
  * - `{}` — every featured project
- * - `{ category: "pub" }` — the featured projects of that category
- * - `{ category: "pub", subcategory: "mode" }` — narrowed further
- * - `{ subcategory: "mode" }` — that subcategory, whatever the category
+ * - `{ category: "ads" }` — the featured projects of that category
+ * - `{ category: "ads", subcategory: "fashion" }` — narrowed further
+ * - `{ subcategory: "fashion" }` — that subcategory, whatever the category
  */
-export const homeShowreel: ShowreelFilter = {"category": "pub"};
+export const homeShowreel: ShowreelFilter = { category: "ads" };
 
 /** A project that is guaranteed to have a video, for the fullscreen showreel. */
 export type ShowreelProject = Project & { video: VideoSource };

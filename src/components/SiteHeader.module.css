@@ -2,10 +2,6 @@
   display: flex;
   align-items: flex-start;
   gap: var(--space-2xs);
-
-  /* Height of the collapsed pill, spelled out: padding + borders + one line of
-     the name. The bubble uses it so its size never follows the expansion. */
-  --bubble-size: calc(var(--space-xs) * 2 + 2px + var(--step--1) * 1.25);
 }
 
 /* Same glass material as the showreel's round button. */
@@ -102,13 +98,6 @@
   color: rgb(255 255 255 / 0.8);
 }
 
-.location {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
-  white-space: nowrap;
-}
-
 /* Instagram bubble: the compact header's stand-in for the full identity, so
    it is hidden whenever the details are on screen — including on hover. */
 .bubble {
@@ -117,8 +106,9 @@
   align-self: flex-start;
   display: grid;
   place-items: center;
-  width: var(--bubble-size);
-  height: var(--bubble-size);
+  /* Square on the collapsed header, whatever state it is in */
+  width: var(--header-size);
+  height: var(--header-size);
   margin-top: 0.1em;
   border-radius: 50%;
   border: 1px solid rgb(255 255 255 / 0.43);
@@ -149,8 +139,3 @@
   pointer-events: none;
 }
 
-.pin {
-  flex-shrink: 0;
-  /* Nudge the pin onto the optical baseline of the text */
-  transform: translateY(-0.05em);
-}

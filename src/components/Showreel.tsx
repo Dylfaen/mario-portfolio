@@ -133,8 +133,8 @@ export default function Showreel({
   return (
     <section
       className={styles.showreel}
-      aria-roledescription="carrousel"
-      aria-label="Bande démo"
+      aria-roledescription="carousel"
+      aria-label="Showreel"
       onWheel={(event) => {
         if (Math.abs(event.deltaY) < 10) return;
         shift(event.deltaY > 0 ? 1 : -1);
@@ -153,35 +153,37 @@ export default function Showreel({
         }
       }}
     >
-      {/* Full state only as an intro, on arrival: once collapsed it stays
-          collapsed, and hovering is the way to read it again. */}
-      <div className={styles.header}>
+      {/* One stack: on a phone the filters follow the header down as it
+          expands, instead of being sat on. */}
+      <div className={`${styles.chrome} ${single ? styles.chromeSingle : ""}`}>
+        {/* Full state only as an intro, on arrival: once collapsed it stays
+            collapsed, and hovering is the way to read it again. */}
         <SiteHeader compact={headerCollapsed} />
-      </div>
 
-      <div className={styles.filters}>
-        {single ? (
-          <button
-            type="button"
-            className={styles.back}
-            // Falls back to the gallery when the film was opened directly.
-            onClick={() =>
-              window.history.length > 1
-                ? router.back()
-                : router.push(`/?${VIEW_PARAM}=${GALLERY_VALUE}`)
-            }
-            aria-label="Fermer"
-          >
-            <X size={20} aria-hidden="true" />
-          </button>
-        ) : (
-          <ShowreelFilters category={category} subcategory={subcategory} />
-        )}
+        <div className={styles.filters}>
+          {single ? (
+            <button
+              type="button"
+              className={styles.back}
+              // Falls back to the gallery when the film was opened directly.
+              onClick={() =>
+                window.history.length > 1
+                  ? router.back()
+                  : router.push(`/?${VIEW_PARAM}=${GALLERY_VALUE}`)
+              }
+              aria-label="Close"
+            >
+              <X size={20} aria-hidden="true" />
+            </button>
+          ) : (
+            <ShowreelFilters category={category} subcategory={subcategory} />
+          )}
+        </div>
       </div>
 
       {/* Carousel indicator: where you are in the reel, and a way to jump. */}
       {!single && projects.length > 1 && (
-        <ol className={styles.dots} aria-label="Vidéos de la sélection">
+        <ol className={styles.dots} aria-label="Films in this selection">
           {projects.map((project, i) => (
             <li key={project.slug}>
               <button
@@ -243,7 +245,7 @@ export default function Showreel({
             type="button"
             className={styles.next}
             onClick={() => shift(1)}
-            aria-label={`Vidéo suivante (${index + 1} sur ${projects.length})`}
+            aria-label={`Next film (${index + 1} of ${projects.length})`}
           >
             <ArrowDown size={22} aria-hidden="true" />
           </button>

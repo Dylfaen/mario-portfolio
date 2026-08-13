@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: site.description,
   openGraph: {
     type: "website",
-    locale: "fr_FR",
+    locale: "en_GB",
     siteName: site.name,
     title: `${site.name} — ${site.role}`,
     description: site.description,
@@ -35,7 +35,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fr" className={sans.variable}>
+    <html lang="en" className={sans.variable}>
       <body>
         {/* Header removed for now — re-add <SiteHeader /> here when needed.
             The footer lives in the (site) group, so the home page has none. */}

@@ -9,7 +9,7 @@ import {
 export default function sitemap(): MetadataRoute.Sitemap {
   const paths = [
     "",
-    "/tout",
+    "/all",
     ...showreelCategories().map((category) => `/${category}`),
     ...showreelSubcategories().map(
       ({ category, subcategory }) => `/${category}/${subcategory}`,

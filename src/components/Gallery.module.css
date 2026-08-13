@@ -1,7 +1,10 @@
 .gallery {
   position: relative;
+  --chrome-top: max(var(--space-m), env(safe-area-inset-top));
   min-height: 100dvh;
-  padding: 0 var(--gutter) calc(var(--space-2xl) + var(--control-size));
+  /* Room for the fixed chrome above: header, filters, then a gap. */
+  padding: calc(var(--chrome-top) + var(--header-size) * 2 + var(--space-2xs) + var(--space-m))
+    var(--gutter) calc(var(--space-2xl) + var(--control-size));
 }
 
 /* Pool of light behind the grid, tinted with the hovered cover's average
@@ -33,33 +36,33 @@
   z-index: 1;
 }
 
-/* Same corners as the fullscreen view, so switching between the two barely
-   moves anything: header top left, filters top right. */
-.headerSlot {
+/* Same corners and same stacking as the fullscreen view, so switching between
+   the two barely moves anything. Fixed, so it neither scrolls away nor
+   reflows the grid when the header expands. */
+.chrome {
   position: fixed;
   z-index: 6;
-  top: max(var(--space-m), env(safe-area-inset-top));
+  top: var(--chrome-top);
   left: max(var(--gutter), env(safe-area-inset-left));
-}
-
-.bar {
-  position: sticky;
-  top: 0;
-  z-index: 5;
+  right: max(var(--gutter), env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: var(--space-2xs);
-  padding-block: max(var(--space-m), env(safe-area-inset-top)) var(--space-m);
-  /* Room for the floating header on the left */
-  min-height: calc(var(--control-size) + var(--space-m));
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--space-l);
-  margin: 0;
+  margin: 4em 0 0 0;
   padding: 0;
   list-style: none;
 }
@@ -126,6 +129,20 @@
 }
 
 @media (min-width: 40em) {
+  /* Wide enough to sit on the header's line, in the opposite corner. */
+  .chrome {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .filters {
+    align-items: flex-end;
+  }
+
+  .gallery {
+    padding-top: calc(var(--chrome-top) + var(--header-size) + var(--space-m));
+  }
+
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }

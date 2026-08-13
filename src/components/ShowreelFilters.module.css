@@ -1,10 +1,12 @@
 .filters {
   display: flex;
-  /* Stacked, right-aligned under each other in the top corner. */
+  /* Stacked under each other, hugging whichever edge they are anchored to. */
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: var(--space-2xs);
   padding-top: 0.1em;
+  margin-top: 1em;
+  margin-bottom: 1.2em;
 }
 
 .dropdown {
@@ -75,7 +77,7 @@
   position: absolute;
   z-index: 3;
   top: calc(100% + var(--space-2xs));
-  right: 0;
+  left: 0;
   min-width: 100%;
   margin: 0;
   padding: var(--space-2xs);
@@ -123,4 +125,17 @@
 .active:hover {
   background: #fff;
   color: #000;
+}
+
+/* Anchored right from tablet up, so the panels open that way too. */
+@media (min-width: 40em) {
+  .filters {
+    align-items: flex-end;
+    margin-top: 0;
+  }
+
+  .panel {
+    left: auto;
+    right: 0;
+  }
 }

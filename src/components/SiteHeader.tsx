@@ -1,4 +1,3 @@
-import { MapPin } from "lucide-react";
 // lucide dropped brand icons in v1, so the Instagram mark comes from
 // react-icons (Simple Icons set).
 import { SiInstagram } from "react-icons/si";
@@ -22,11 +21,6 @@ export default function SiteHeader({
         <div className={styles.details}>
           <div className={styles.detailsInner}>
             <span className={styles.role}>{site.role}</span>
-            <span className={styles.location}>
-              {/* Decorative icon: the adjacent text is enough for screen readers. */}
-              <MapPin className={styles.pin} size="1em" aria-hidden="true" />
-              {site.location}
-            </span>
           </div>
         </div>
       </header>

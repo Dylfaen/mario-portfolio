@@ -14,9 +14,9 @@ import Gallery from "./Gallery";
 import ViewSwitch from "./ViewSwitch";
 import styles from "./ProjectsView.module.css";
 
-/** `?vue=galerie` — a presentation switch, not a different page. */
-export const VIEW_PARAM = "vue";
-export const GALLERY_VALUE = "galerie";
+/** `?view=gallery` — a presentation switch, not a different page. */
+export const VIEW_PARAM = "view";
+export const GALLERY_VALUE = "gallery";
 
 type ViewMode = { gallery: boolean; setGallery: (value: boolean) => void };
 

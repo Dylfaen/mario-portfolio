@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import ProjectsView from "@/components/ProjectsView";
 import { homeShowreel, selectShowreel } from "@/content/projects";
 
-export const metadata: Metadata = { title: "Tout" };
+export const metadata: Metadata = { title: "All" };
 
 // Every featured project, whatever its category. This route exists because `/`
 // plays whatever `homeShowreel` narrows it down to, so without it the "Tout"

@@ -1,5 +1,6 @@
 .showreel {
   position: relative;
+  --chrome-top: max(var(--space-m), env(safe-area-inset-top));
   width: 100%;
   /* dvh follows the mobile browser chrome as it collapses on scroll */
   height: 100dvh;
@@ -64,24 +65,48 @@
   transform: scale(1.7);
 }
 
-/* Positioning only — the header and the filters style themselves. */
-.header,
-.filters {
+/* Positioning only — the header and the filters style themselves. Stacked on
+   a phone, so expanding the header pushes the filters down rather than under
+   it; side by side in the two top corners once there is room. */
+.chrome {
   position: absolute;
   z-index: 2;
-  top: max(var(--space-m), env(safe-area-inset-top));
-}
-
-.header {
+  top: var(--chrome-top);
   left: max(var(--gutter), env(safe-area-inset-left));
-}
-
-.filters {
   right: max(var(--gutter), env(safe-area-inset-right));
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+  align-items: flex-start;
   gap: var(--space-2xs);
+}
+
+.filters {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-2xs);
+}
+
+/* Single-film view: one small round button instead of the filters, so it sits
+   beside the header even on the narrowest screen. */
+.chromeSingle {
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.chromeSingle .filters {
+  align-items: flex-end;
+}
+
+@media (min-width: 40em) {
+  .chrome {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .filters {
+    align-items: flex-end;
+  }
 }
 
 /* Single-film view: same corner as the filters it replaces. */
@@ -126,12 +151,19 @@
 
 /* Cover, orientation-agnostic: blow the 16/9 player up until it overflows
    the viewport on both axes, then centre it. Portrait crops the sides,
-   landscape crops top and bottom — the screen is always full. */
+   landscape crops top and bottom — the screen is always full.
+
+   The overscan then pushes the player's own chrome off screen: Adobe's
+   embed draws a control bar along its bottom edge that no parameter can
+   turn off, and on a short, wide window that edge would otherwise sit
+   just inside the viewport. Raise it if a bar still shows. */
 .cover {
+  --overscan: 1.15;
+
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scale(var(--overscan));
   width: max(100dvw, calc(100dvh * 16 / 9));
   height: max(100dvh, calc(100dvw * 9 / 16));
 }
