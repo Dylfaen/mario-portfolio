@@ -68,6 +68,18 @@ export type Project = {
 // showreel plays them in.
 export const projects: Project[] = [
   {
+    slug: "louis-vuitton-virtuosity-sorbet-49",
+    title: "Louis Vuitton Virtuosity - Sorbet Issue 49",
+    director: "Ben Fourmi",
+    production: "Denise",
+    category: "ads",
+    subcategory: "fashion",
+    cover: "/images/lv-virtuosity-sorbet49.jpg",
+    glow: "#9c8864",
+    video: { provider: "vimeo", id: "1245566712", hash: "654c9ae25a" },
+    featured: true,
+  },
+  {
     slug: "campagne-casablanca-ss25",
     title: "Campagne Casablanca SS25",
     director: "Andrée Dubois",
