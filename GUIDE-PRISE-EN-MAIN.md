@@ -28,7 +28,8 @@ Quand les instructions diffèrent selon ton système, elles sont marquées 🪟 
 | Élément | Rôle |
 | --- | --- |
 | **GitHub** | Stocke le code du site et tout son historique. C'est la « source de vérité ». |
-| **GitHub Desktop** | L'application (avec interface graphique) qui synchronise ton ordinateur avec GitHub. Elle remplace les commandes `git`. |
+| **Git** | L'outil qui enregistre les versions du code et les synchronise avec GitHub. Tu ne tapes presque jamais de commande : VS Code s'en charge avec des boutons. |
+| **Git Graph** | Une extension de VS Code qui affiche l'historique des modifications sous forme de graphe, et permet d'annuler une modification d'un clic droit. |
 | **VS Code** | L'éditeur dans lequel tu modifies les fichiers. |
 | **Node.js** | Fait tourner le site sur ton ordinateur pour que tu le voies avant de publier. |
 | **Vercel** | Héberge le site (sur le compte de César). Dès que tu pousses (*push*) une modification sur GitHub, Vercel reconstruit le site et le met en ligne. Tu n'as rien à y faire. |
@@ -66,7 +67,7 @@ C'est tout. **Tu n'as pas besoin de compte Vercel** : le site est hébergé sur 
 
 ## 3. Installer les outils
 
-Installe les trois outils dans l'ordre. Garde les options par défaut des installateurs, sauf indication contraire.
+Installe les outils dans l'ordre. Garde les options par défaut des installateurs, sauf indication contraire.
 
 ### 3.1 VS Code (l'éditeur)
 
@@ -78,7 +79,7 @@ Installe les trois outils dans l'ordre. Garde les options par défaut des instal
 ### 3.2 Node.js (pour faire tourner le site en local)
 
 1. Va sur <https://nodejs.org/> et télécharge la version **LTS** (le bouton recommandé, pas « Current »).
-2. 🪟 **Windows** : lance le `.msi` et clique sur Suivant jusqu'au bout. Si une case « Automatically install the necessary tools » (Chocolatey) apparaît, **ne la coche pas** : ce n'est pas nécessaire.
+2. 🪟 **Windows** : lance le `.msi` et clique sur Suivant jusqu'au bout. Une case « Automatically install the necessary tools » propose d'installer **Chocolatey** (un installateur de logiciels en ligne de commande). Tu peux la cocher : elle simplifie l'installation de Git à l'étape suivante. L'installation complémentaire ouvre une fenêtre noire et prend plusieurs minutes : laisse-la finir. Si tu ne la coches pas, ce n'est pas grave : il existe un installateur classique pour Git.
 3. 🍎 **Mac** : lance le `.pkg` et clique sur Continuer jusqu'au bout.
 4. **Vérification** : ferme et rouvre VS Code, puis ouvre un terminal (menu **Terminal → Nouveau terminal**) et tape :
    ```
@@ -87,33 +88,61 @@ Installe les trois outils dans l'ordre. Garde les options par défaut des instal
    ```
    Tu dois voir deux numéros de version (par exemple `v24.x.x` et `11.x.x`). Si tu obtiens « commande introuvable », redémarre l'ordinateur et réessaie.
 
-### 3.3 GitHub Desktop (Git avec une interface graphique)
+   > 🪟 **Si `node -v` marche mais que `npm -v` affiche une erreur en rouge** du type `npm.ps1 cannot be loaded because running scripts is disabled on this system` (ou « l'exécution de scripts est désactivée sur ce système ») : c'est une protection de PowerShell, qui bloque les scripts comme `npm`. Tape une fois cette commande, réponds `O` (ou `Y`), puis ferme et rouvre le terminal :
+   > ```
+   > Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+   > ```
 
-1. Télécharge-le sur <https://desktop.github.com/>.
-2. 🪟 **Windows** : lance l'installateur. Il s'installe et s'ouvre tout seul.
-3. 🍎 **Mac** : ouvre le `.zip` et glisse **GitHub Desktop** dans **Applications**.
-4. Au premier lancement, clique sur **Sign in to GitHub.com**. Le navigateur s'ouvre : connecte-toi, puis clique sur **Authorize desktop**.
-5. Dans l'écran « Configure Git », garde ton nom et ton e-mail. Ils signent chacune de tes modifications.
-6. Pour que les boutons « Open in Visual Studio Code » fonctionnent : 🪟 **File → Options → Integrations** / 🍎 **GitHub Desktop → Settings → Integrations** → **External editor : Visual Studio Code**.
+### 3.3 Git
 
-> GitHub Desktop contient sa propre version de Git : **tu n'as pas besoin d'installer Git à part**.
-> 🍎 Si macOS te propose un jour d'installer les « outils de développement en ligne de commande », tu peux accepter sans risque.
-> Si VS Code affiche « Git introuvable », ignore le message : tu utilises GitHub Desktop pour tout ce qui concerne Git.
+🪟 **Windows, avec Chocolatey** (si tu as coché la case à l'étape précédente) :
+1. Ouvre le menu Démarrer, tape `PowerShell`, fais un clic droit sur **Windows PowerShell** → **Exécuter en tant qu'administrateur** → **Oui**.
+2. Vérifie que Chocolatey est là en tapant `choco -v`. Un numéro de version doit s'afficher. Si tu obtiens une erreur, utilise la méthode sans Chocolatey ci-dessous.
+3. Tape :
+```
+   choco install git -y
+   ```
+4. Attends le message `The install of git was successful`, puis ferme la fenêtre.
+
+🪟 **Windows, sans Chocolatey** : télécharge l'installateur sur <https://git-scm.com/download/win> (« Click here to download »), lance-le et clique sur **Next** jusqu'au bout, sans rien changer.
+
+🍎 **Mac** : ouvre l'application **Terminal** (Cmd+Espace, tape `Terminal`) et tape :
+```
+xcode-select --install
+```
+Une fenêtre propose d'installer les « outils de développement en ligne de commande » : clique sur **Installer** et accepte la licence. Cela prend quelques minutes. Si le Terminal répond `already installed`, Git est déjà là.
+
+**Vérification** (Windows et Mac) : ferme complètement VS Code, rouvre-le, ouvre un terminal (**Terminal → Nouveau terminal**) et tape `git --version`. Tu dois voir un numéro de version, par exemple `git version 2.5x.x`.
+
+**Te présenter à Git** (une seule fois). Chaque modification que tu enregistres est signée d'un nom et d'un e-mail. Dans le même terminal, tape ces deux lignes avec **ton** nom et **l'e-mail de ton compte GitHub** :
+```
+git config --global user.name "Mario Le Sergent"
+git config --global user.email "ton-email@exemple.com"
+```
+Ces commandes n'affichent rien quand elles réussissent, c'est normal.
+
+### 3.4 L'extension Git Graph
+
+1. Dans VS Code, ouvre le panneau des extensions : icône des quatre carrés dans la barre de gauche, ou `Ctrl+Shift+X` (🍎 `Cmd+Shift+X`).
+2. Cherche `Git Graph`. Choisis celle de l'auteur **mhutchie** (des millions de téléchargements) et clique sur **Installer**.
 
 ---
 
 ## 4. Télécharger le code sur ton ordinateur
 
-C'est ce qu'on appelle « cloner » le dépôt.
+C'est ce qu'on appelle « cloner » le dépôt. Tout se fait depuis VS Code.
 
-1. Dans GitHub Desktop : **File → Clone repository…**
-2. Onglet **GitHub.com** → sélectionne `Dylfaen/mario-portfolio`. Il apparaît une fois l'invitation acceptée. Sinon, onglet **URL** → colle `https://github.com/Dylfaen/mario-portfolio`.
-3. **Local path** : choisis où ranger le dossier, par exemple `Documents\GitHub\mario-portfolio`. Évite un dossier synchronisé par **OneDrive / iCloud / Dropbox**, cela pose des problèmes avec le dossier `node_modules`.
-4. Clique sur **Clone**.
-5. Une fois le clonage terminé, clique sur **Open in Visual Studio Code** (ou menu **Repository → Open in Visual Studio Code**).
-6. Si VS Code demande « Faites-vous confiance aux auteurs de ce dossier ? », réponds **Oui**.
+1. `Ctrl+Shift+P` (🍎 `Cmd+Shift+P`), tape `Git: Clone` et valide avec Entrée.
+2. Choisis **Cloner à partir de GitHub** (*Clone from GitHub*).
+3. VS Code demande l'autorisation de se connecter à GitHub : clique sur **Autoriser**. Le navigateur s'ouvre : connecte-toi à GitHub et autorise **Visual Studio Code**, puis reviens dans VS Code. C'est cette connexion qui te permettra ensuite de publier tes modifications.
+4. Tape `Dylfaen/mario-portfolio` et sélectionne-le dans la liste. S'il n'apparaît pas, colle plutôt l'adresse `https://github.com/Dylfaen/mario-portfolio.git` à l'étape 2 et valide.
+5. Choisis le dossier **dans lequel** ranger le projet, par exemple `Documents`. VS Code y crée un sous-dossier `mario-portfolio`. Évite un dossier synchronisé par **OneDrive / iCloud / Dropbox** : cela pose des problèmes avec le dossier `node_modules`.
+6. À la fin du téléchargement, clique sur **Ouvrir** (*Open*).
+7. Si VS Code demande « Faites-vous confiance aux auteurs des fichiers de ce dossier ? », réponds **Oui**.
 
 Tu dois voir à gauche les dossiers `public`, `src`, le fichier `package.json`, etc.
+
+Pour rouvrir le projet les fois suivantes : **Fichier → Ouvrir un dossier récent** (*Open Recent*) → `mario-portfolio`.
 
 ---
 
@@ -129,10 +158,7 @@ npm install
 
 Le téléchargement prend une minute ou deux, puis un dossier `node_modules` apparaît. Des messages « warn » ou « vulnerabilities » peuvent s'afficher : c'est normal, ignore-les.
 
-> 🪟 **Si tu as l'erreur** `npm.ps1 cannot be loaded because running scripts is disabled on this system` (ou « l'exécution de scripts est désactivée sur ce système ») : c'est une protection de PowerShell. Tape une fois cette commande, réponds `O` (ou `Y`), puis relance `npm install` :
-> ```
-> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
-> ```
+> 🪟 Si `npm` affiche une erreur « scripts désactivés » / `npm.ps1`, voir l'encadré de l'[étape 3.2](#32-nodejs-pour-faire-tourner-le-site-en-local).
 
 ### 5.2 Démarrer le site
 
@@ -152,7 +178,7 @@ Quand tu vois `Ready` et `http://localhost:3000`, ouvre <http://localhost:3000> 
 Voici la routine à suivre à chaque fois.
 
 ### Étape 1 : récupérer la dernière version
-Dans GitHub Desktop, clique sur **Fetch origin** (en haut). S'il devient **Pull origin**, clique encore. Ça évite les conflits si quelqu'un d'autre (César, par exemple) a modifié le site entre-temps.
+En bas à gauche de VS Code, dans la barre d'état bleue, à côté de `main`, clique sur l'icône de synchronisation ⟳. Elle télécharge les éventuelles modifications faites par quelqu'un d'autre (César, par exemple) et évite les conflits. Si VS Code te demande de confirmer, clique sur **OK**.
 
 ### Étape 2 : modifier
 Dans VS Code, ouvre le fichier voulu (voir la [section 7](#7-exemples-de-modifications-courantes)), modifie-le et **enregistre**. Vérifie le résultat sur <http://localhost:3000> (avec `npm run dev` lancé).
@@ -168,13 +194,18 @@ npm run build
 - **En cas d'erreur** (texte rouge, `Failed to compile`, `Type error`) : le message indique le fichier et la ligne. Souvent, c'est une virgule ou un guillemet oublié. Corrige et relance. **Ne publie pas tant que le build échoue** : Vercel échouerait de la même façon. (Rassure-toi : dans ce cas, l'ancienne version du site reste en ligne.)
 
 ### Étape 4 : enregistrer la modification (commit)
-Dans GitHub Desktop :
-1. À gauche, tu vois la liste des fichiers modifiés. Clique dessus pour voir le détail (en rouge ce qui est supprimé, en vert ce qui est ajouté).
-2. En bas à gauche, dans **Summary**, écris une phrase courte qui décrit le changement, par exemple `Ajout du clip Untel`.
-3. Clique sur **Commit to main**.
+1. Ouvre le panneau **Contrôle de code source** (*Source Control*) : l'icône à trois ronds reliés dans la barre de gauche, ou `Ctrl+Shift+G` (🍎 `Cmd+Shift+G`). Un chiffre bleu sur l'icône indique le nombre de fichiers modifiés.
+2. La liste **Modifications** (*Changes*) affiche les fichiers touchés. Clique sur l'un d'eux pour voir le détail : à gauche l'ancienne version, à droite la nouvelle. Les lignes en rouge sont supprimées, celles en vert ajoutées.
+3. Dans le champ **Message** en haut du panneau, écris une phrase courte qui décrit le changement, par exemple `Ajout du clip Nuit Blanche`.
+4. Clique sur **✓ Valider** (*Commit*).
+5. La première fois, VS Code demande s'il doit « indexer automatiquement toutes les modifications ». Réponds **Toujours** (*Always*) : tous les fichiers modifiés seront inclus dans le commit.
 
 ### Étape 5 : publier (push)
-Clique sur **Push origin** en haut.
+Le bouton bleu du panneau devient **Synchroniser les modifications ↑1** (*Sync Changes*). Clique dessus, puis sur **OK** si VS Code demande confirmation.
+
+> 🪟 La toute première fois, une fenêtre « Connect to GitHub » peut s'ouvrir : choisis **Sign in with your browser** et autorise dans le navigateur. Elle ne réapparaîtra plus ensuite.
+
+Pour vérifier que c'est bien parti, ouvre **Git Graph** : clique sur `Git Graph` dans la barre d'état en bas, ou sur l'icône Git Graph en haut du panneau Contrôle de code source. Ton commit est en haut de la liste, et les étiquettes `main` et `origin/main` sont sur la même ligne. `origin/main` représente la version sur GitHub : si elle est restée sur une ligne plus bas, le push n'a pas encore eu lieu.
 
 ### Étape 6 : vérifier la mise en ligne
 1. Va sur <https://github.com/Dylfaen/mario-portfolio>. À côté du dernier commit (en haut de la liste des fichiers), une petite icône indique où en est le déploiement Vercel :
@@ -187,7 +218,7 @@ Clique sur **Push origin** en haut.
 
 ## 7. Exemples de modifications courantes
 
-Le fichier `README.md` du projet détaille tout. Voici l'essentiel.
+Voici l'essentiel. **Pour le détail de chaque champ, d'autres exemples (modifier, réordonner, masquer ou supprimer un projet) et la page d'accueil, voir la section « Modifier le contenu » du [README](README.md#modifier-le-contenu).**
 
 ### Changer le métier, la description ou l'Instagram
 Fichier `src/content/site.ts`. Modifie le texte **entre les guillemets**, sans toucher au reste.
@@ -230,28 +261,32 @@ Passe `featured: true` à `featured: false`.
 | Problème | Solution |
 | --- | --- |
 | `node` ou `npm` « introuvable » | Ferme et rouvre VS Code. Sinon, redémarre l'ordinateur. Sinon, réinstalle Node.js (étape 3.2). |
-| 🪟 « scripts désactivés » / `npm.ps1` | Voir l'encadré de l'[étape 5.1](#51-installer-les-dépendances-une-seule-fois-ou-quand-packagejson-change). |
+| 🪟 « scripts désactivés » / `npm.ps1` | Voir l'encadré de l'[étape 3.2](#32-nodejs-pour-faire-tourner-le-site-en-local). |
 | `Port 3000 is in use` | Un ancien `npm run dev` tourne encore dans un autre terminal : ferme-le. Next.js propose sinon le port 3001, ça marche aussi. |
 | Erreur bizarre après un *Pull* | Relance `npm install` : une dépendance a peut-être changé. |
 | Le site local ne se met pas à jour | Vérifie que le fichier est enregistré (un point ● sur l'onglet signale qu'il ne l'est pas). Recharge la page. |
 | Croix rouge ❌ à côté du commit sur GitHub | Le déploiement a échoué. Clique sur la croix → **Details** pour voir les logs. C'est la même erreur que `npm run build` montrerait en local : corrige, commit, push. L'ancien site reste en ligne en attendant. |
 | J'ai cassé le site en ligne | Annule le commit fautif (ligne suivante) et pousse : l'ancienne version revient en ligne en une minute. En cas d'urgence, César peut aussi revenir instantanément à une version précédente depuis Vercel. |
-| Je veux annuler un commit | GitHub Desktop → onglet **History** → clic droit sur le commit → **Revert changes in commit**, puis **Push origin**. |
-| Je veux annuler des modifications pas encore commitées | GitHub Desktop → clic droit sur le fichier dans la liste → **Discard changes…** |
-| GitHub Desktop parle de **conflit** | Quelqu'un a modifié la même ligne que toi. GitHub Desktop propose d'ouvrir le fichier dans VS Code, qui affiche les deux versions avec des boutons « Accept Current / Incoming / Both ». Choisis, enregistre, puis commit. En cas de doute, appelle César. |
+| Je veux annuler un commit | Ouvre **Git Graph**, fais un clic droit sur le commit → **Revert…** → **Yes, revert**. Git crée un nouveau commit qui défait l'ancien. Clique ensuite sur **Synchroniser les modifications** pour le publier. |
+| Je veux annuler des modifications pas encore commitées | Panneau **Contrôle de code source** → survole le fichier → icône ↶ **Ignorer les modifications** (*Discard Changes*). Attention : c'est définitif. |
+| `git` « introuvable », ou VS Code affiche « Git introuvable » | Ferme complètement VS Code et rouvre-le. Sinon, redémarre l'ordinateur. Sinon, refais l'[étape 3.3](#33-git). |
+| « Please tell me who you are » / « Make sure you configure your user.name » | Tu as sauté la partie « Te présenter à Git » de l'[étape 3.3](#33-git). Tape les deux commandes `git config`, puis refais le commit. |
+| Le push échoue (`Permission denied`, `403`, `Authentication failed`) | Vérifie que tu as bien accepté l'invitation de César (étape 2). Puis, dans VS Code, clique sur l'icône du compte (en bas à gauche) → déconnecte-toi de GitHub, et refais le push : VS Code redemande la connexion. |
+| Le push est refusé (`rejected`, `fetch first`) | Quelqu'un a publié une modification entre-temps. Clique sur ⟳ (étape 1), puis à nouveau sur **Synchroniser les modifications**. |
+| VS Code parle de **conflit** (*merge conflict*) | Quelqu'un a modifié la même ligne que toi. VS Code ouvre le fichier et affiche les deux versions avec des boutons « Accepter la modification actuelle / entrante / les deux ». Choisis, enregistre, puis valide et synchronise. En cas de doute, appelle César. |
 
 ---
 
 ## 9. Aide-mémoire
 
-**La première fois** : compte GitHub → accepter l'invitation de César → VS Code, Node.js et GitHub Desktop → Clone → `npm install`.
+**La première fois** : compte GitHub → accepter l'invitation de César → installer VS Code, Node.js, Git (+ `git config`) et Git Graph → `Git: Clone` dans VS Code → `npm install`.
 
 **À chaque modification** :
 
-1. GitHub Desktop : **Fetch / Pull origin**
+1. VS Code : ⟳ en bas à gauche
 2. VS Code, terminal : `npm run dev` → modifier → vérifier sur <http://localhost:3000>
 3. `Ctrl+C`, puis `npm run build` → pas d'erreur
-4. GitHub Desktop : message → **Commit to main** → **Push origin**
+4. Contrôle de code source (`Ctrl+Shift+G`) : message → **✓ Valider** → **Synchroniser les modifications**
 5. GitHub : coche verte ✅ à côté du commit → vérifier <https://mariolesergent.com>
 
 **Les fichiers à connaître**
