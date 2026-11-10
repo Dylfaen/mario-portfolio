@@ -13,7 +13,7 @@ const instagram = {
 export const site = {
   name: "Mario Le Sergent",
   instagram,
-  role: "Director of Photography",
+  role: "Directeur de la Photographie",
   // Used for <title> tags / SEO
   description:
     "Portfolio of Mario Le Sergent, director of photography based in Paris. Fiction, documentary, music video and commercials.",
