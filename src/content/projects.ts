@@ -141,18 +141,6 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: "conversations",
-    title: "Conversations",
-    director: "Marion Renerre",
-    production: "Hurrah.studio",
-    cover: "/images/conversations.jpg",
-    glow: "#69413a",
-    category: "documentary",
-    subcategory: "music",
-    video: { provider: "vimeo", id: "1119377528", hash: "d839c3575e" },
-    featured: true,
-  },
-  {
     slug: "le-rayon-vert",
     title: "Le Rayon vert",
     director: "Marion Renerre",
@@ -210,7 +198,7 @@ export const projects: Project[] = [
     video: { provider: "vimeo", id: "1227023981", hash: "be3440d09d" },
     category: "ads",
     subcategory: "food",
-    featured: true,
+    featured: false,
   },
 ];
 
@@ -221,7 +209,7 @@ export const projects: Project[] = [
  * - `{ category: "ads", subcategory: "fashion" }` — narrowed further
  * - `{ subcategory: "fashion" }` — that subcategory, whatever the category
  */
-export const homeShowreel: ShowreelFilter = { category: "ads" };
+export const homeShowreel: ShowreelFilter = { };
 
 /** A project that is guaranteed to have a video, for the fullscreen showreel. */
 export type ShowreelProject = Project & { video: VideoSource };
