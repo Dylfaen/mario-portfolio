@@ -103,7 +103,7 @@ export const projects: Project[] = [
     video: { provider: "vimeo", id: "1227029842", hash: "3e2a200ef0" },
     featured: true,
   },
-  {
+  /**{
     slug: "campagne-undiz-ss25",
     title: "Campagne UNDIZ SS25",
     director: "Andrée Dubois",
@@ -114,7 +114,7 @@ export const projects: Project[] = [
     glow: "#897b6c",
     video: { provider: "vimeo", id: "1227030818", hash: "fcb72b9670" },
     featured: true,
-  },
+  },*/
   {
     // The old site listed Casablanca SS25 twice, with two different films.
     slug: "campagne-casablanca-ss25-2",
@@ -153,8 +153,8 @@ export const projects: Project[] = [
     featured: true,
   },
   {
-    slug: "edito-gheir-cartier",
-    title: "Edito gheir x CARTIER",
+    slug: "edito-cartier-gheir",
+    title: "Edito Cartier x Gheir",
     director: "Angie Kremer",
     production: "Angie Kremer Studio",
     cover: "/images/edito-gheir-cartier.jpg",
